@@ -11,7 +11,15 @@ const apiClient = axios.create({
 });
 
 export default {
+
+    consultaExtrato(){
+        return apiClient.get('/transacao/aluno/todas/' + localStorage.getItem('userId'));
+    },
+
     getAlunos() {
         return apiClient.get('/aluno/todos');
-    }
+    },
+    getRankingAlunos() {
+        return apiClient.get('/ranking/todos');
+    },
 }

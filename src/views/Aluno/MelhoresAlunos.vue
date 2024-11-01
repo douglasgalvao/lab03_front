@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="container">
-      <img class="fotoPerfilPrimeiro" :src="douglas03" alt="Foto do Perfil" />
+      <img class="fotoPerfilPrimeiro" v-if="alunos.length" :src="alunos[0]?.fotoPerfil || ''" alt="Foto do Perfil" />
 
-      <img class="fotoPerfilSegundo" :src="douglas02" alt="Foto do Perfil" />
+      <img class="fotoPerfilSegundo" v-if="alunos.length" :src="alunos[1]?.fotoPerfil || ''" alt="Foto do Perfil" />
 
-      <img class="fotoPerfilTerceiro" :src="douglas01" alt="Foto do Perfil" />
+      <img class="fotoPerfilTerceiro" v-if="alunos.length" :src="alunos[2]?.fotoPerfil || ''" alt="Foto do Perfil" />
 
       <img :src="podium" class="fotoPodium" />
     </div>
@@ -96,6 +96,7 @@ import podium from "../../assets/podium.png";
 import first_medal from "../../assets/first_medal.png";
 import second_medal from "../../assets/second_medal.png";
 import third_medal from "../../assets/third_medal.png";
+import alunoService from "../../services/alunoService.js";
 
 const searchQuery = ref("");
 const searchQueryByCurso = ref("");
@@ -119,44 +120,10 @@ function buscarAlunoByCurso() {
 
 
 onMounted(() => {
-  // alunoService.getAlunos().then((response) => {
-  //   alunos.value = response.data;
-  // });
+  alunoService.getRankingAlunos().then((response) => {
+    alunos.value = response.data.map(e => ({ ...e, acaoImg: aracoinPNG }));
+  });
 
-  alunos.value = [
-    {
-      posicaoRanking: 1,
-      fotoPerfil: douglas01,
-      nome: "Douglas Machado",
-      curso: "Engenharia",
-      acaoImg: aracoinPNG,
-      totalMoedasRecebidas: 100,
-    },
-    {
-      posicaoRanking: 2,
-      fotoPerfil: douglas02,
-      nome: "Douglas Machado 02",
-      curso: "Computação",
-      acaoImg: aracoinPNG,
-      totalMoedasRecebidas: 80,
-    },
-    {
-      posicaoRanking: 3,
-      fotoPerfil: douglas03,
-      nome: "Douglas Machado 03",
-      curso: "Fisica",
-      acaoImg: aracoinPNG,
-      totalMoedasRecebidas: 50,
-    },
-    {
-      posicaoRanking: 4,
-      fotoPerfil: douglas01,
-      nome: "Alguém",
-      curso: "Engenharia",
-      acaoImg: aracoinPNG,
-      totalMoedasRecebidas: 40,
-    },
-  ];
 });
 </script>
 

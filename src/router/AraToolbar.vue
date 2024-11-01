@@ -27,8 +27,10 @@
         <span class="saldo">{{ saldo }}</span>
 
         <img src="@/assets/aracoin.png" alt="AraCoin" style="width: 40px; height: 32px; margin-right: 1rem" />
+
         <Avatar :image=imgPerfil
-          style="width: 32px; height: 32px" />
+          style="width: 32px; height: 32px; border-radius: 100%;" />
+
         <div class="contentUser">
           <Button icon="pi pi-sign-out" class="p-button-rounded p-button-danger" @click="logout" />
         </div>
@@ -40,17 +42,17 @@
     <Toolbar class="toolbar" v-if="usuarioType === 'Aluno'">
       <template #start>
         <div class="contentToolbarItens">
-          <router-link to="/professor/home" active-class="button-active">
+          <router-link to="/aluno/home" active-class="button-active">
             <Button style="background-color: black" label="Home" text plain><span
                 class="buttonToolbarspan">Home</span></Button>
           </router-link>
 
-          <router-link to="/professor/extrato" active-class="button-active">
+          <router-link to="/aluno/extrato" active-class="button-active">
             <Button style="background-color: black" label="Extrato" text plain><span
                 class="buttonToolbarspan">Extrato</span></Button>
           </router-link>
 
-          <router-link to="/professor/melhores-alunos" active-class="button-active">
+          <router-link to="/aluno/melhores-alunos" active-class="button-active">
             <Button style="background-color: black" label="Melhores_Alunos" text plain><span
                 class="buttonToolbarspan">Melhores_Alunos</span></Button>
           </router-link>
@@ -62,8 +64,7 @@
         <span class="saldo">{{ saldo }}</span>
 
         <img src="@/assets/aracoin.png" alt="AraCoin" style="width: 40px; height: 32px;" />
-        <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
-          style="width: 32px; height: 32px; margin-right:1rem ;" />
+        <Avatar :image=imgPerfil style="width: 32px; height: 32px; margin-right:1rem; border-radius: 100%;" />
 
         <div class="contentUser">
           <Button icon="pi pi-sign-out" class="p-button-rounded p-button-danger" @click="logout" />
@@ -85,7 +86,8 @@
       <template #end>
         <span class="saldo">{{ saldo }}</span>
 
-        <img src="@/assets/aracoin.png" alt="AraCoin" style="width: 40px; height: 32px; margin-right: 1rem" />
+        <Avatar :image=imgPerfil
+          style="width: 32px; height: 32px; margin-right:1rem; border-radius: 100%;" />
 
         <div class="contentUser">
           <Button icon="pi pi-sign-out" class="p-button-rounded p-button-danger" @click="logout" />

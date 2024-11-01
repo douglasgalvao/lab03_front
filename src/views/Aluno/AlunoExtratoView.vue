@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+    <!-- <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i> -->
     
     <DataTable
       :value="extratoAluno"
@@ -73,27 +73,16 @@ import douglas03 from "../../assets/douglas03.jpg";
 import bocadoforno from "../../assets/boca_do_forno.png";
 import aramuni from "../../assets/aramuni.png";
 
+import alunoService from "../../services/alunoService.js";
+
 const extratoAluno = ref([]);
 
 onMounted(() => {
-  extratoAluno.value = [
-    {
-      montante: 150,
-      parteEnvolvida: "Jõao Paulo Aramuni",
-      detalhes: "Tirou a maior nota na primeira prova",
-      data: "28/09/2024",
-      fotoPerfil: aramuni,
-      tipoTransacao: "ENTRADA",
-    },
-    {
-      montante: -50,
-      parteEnvolvida: "Boca do Forno",
-      detalhes: "Cupom de R$15 para salgados em qualquer unidade",
-      data: "15/10/2024",
-      fotoPerfil: bocadoforno,
-      tipoTransacao: "SAIDA",
-    },
-  ];
+
+  alunoService.consultaExtrato().then((response) => {
+    extratoAluno.value = response.data;
+  });
+
 });
 </script>
 
