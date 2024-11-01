@@ -88,6 +88,8 @@ function renderAlunos() {
   });
 }
 
+
+
 renderAlunos();
 
 </script>

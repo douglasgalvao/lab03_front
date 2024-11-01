@@ -58,9 +58,6 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
 import aracoinPNG from "../../assets/aracoin.png";
-import douglas01 from "../../assets/douglas01.jpg";
-import douglas02 from "../../assets/douglas02.jpg";
-import douglas03 from "../../assets/douglas03.jpg";
 import podium from "../../assets/podium.png";
 import first_medal from "../../assets/first_medal.png";
 import second_medal from "../../assets/second_medal.png";

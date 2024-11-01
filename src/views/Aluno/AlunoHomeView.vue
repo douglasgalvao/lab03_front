@@ -6,57 +6,75 @@
         <div class="card-title">{{ vantagem.nome }}</div>
         <div class="card-description">{{ vantagem.descricao }}</div>
         <div class="card-price">
-          <img
-            :src="aracoin"
-            alt="Aracoin"
-            style="width: 36px; height: 32px; margin-right: 5px"
-          />
+          <img :src="aracoin" alt="Aracoin" style="width: 36px; height: 32px; margin-right: 5px" />
           <span class="priceText">{{ vantagem.preco }}</span>
         </div>
-      <Button label="Comprar" class="buttonComprarVantagem"></Button>
+        <Button label="Comprar" class="buttonComprarVantagem" @click="comprarVantagem(vantagem)"></Button>
       </div>
     </Card>
+
+    <Toast />
+
+
+    <Dialog v-model:visible="showDialog" modal>
+
+      <template #header>
+        <div class="headerDialog">
+          <p>Comprar Beneficio</p>
+        </div>
+      </template>
+      <ModalComprarBeneficio
+      :beneficio="beneficioSelecionado"
+      @confirmarCompra="onConfirmarCompra" 
+      @cancelarCompra="onCancelarCompra" 
+      />
+    </Dialog>
+
+
+
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
-
+import { useToast } from "primevue/usetoast";
 import Button from "primevue/button";
 
-import trailer_puc_minas from "../../assets/trailer_puc_minas.png";
-import matricula_pucminas from "../../assets/matricula_pucminas.png";
-import boca_do_forno from "../../assets/boca_do_forno.png";
 import aracoin from "../../assets/aracoin.png";
+import Dialog from "primevue/dialog";
+import ModalComprarBeneficio from "@/components/ModalComprarBeneficio.vue";
+import alunoService from "../../services/alunoService.js";
 
 const vantagens = ref([]);
+const beneficioSelecionado = ref(null);
+const showDialog = ref(false);
+const toast = useToast();
 
 function comprarVantagem(vantagem) {
-  console.log("Comprando vantagem", vantagem);
+  beneficioSelecionado.value = vantagem;
+  showDialog.value = true;
 }
 
+
 onMounted(() => {
-  vantagens.value = [
-    {
-      nome: "Puc Coração Eurcaristico",
-      imagem: matricula_pucminas,
-      descricao: "Cupom de R$200 na próxima matrícula",
-      preco: 200,
-    },
-    {
-      nome: "Trailer PUC Coreu",
-      imagem: trailer_puc_minas,
-      descricao: "Cupom de R$10 no trailer da PUC Coreu",
-      preco: 60,
-    },
-    {
-      nome: "Boca do Forno",
-      imagem: boca_do_forno,
-      descricao: "Cupom de R$15 para salgados em qualquer unidade",
-      preco: 80,
-    },
-  ];
+  alunoService.getVantagens().then((response) => {
+    vantagens.value = response.data;
+  });
+
+
 });
+
+
+function onCancelarCompra() {
+  showDialog.value = false;
+}
+
+function onConfirmarCompra(message) {
+  showDialog.value = false;
+
+  toast.add({ severity: 'success', summary: 'Info', detail: message, life: 3000 });
+}
+
 </script>
 
 <style scoped>
@@ -124,6 +142,7 @@ onMounted(() => {
   color: white;
   margin: 0;
 }
+
 .buttonComprarVantagem {
   background: #555;
   color: white;

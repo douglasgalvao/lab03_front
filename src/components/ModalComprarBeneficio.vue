@@ -1,71 +1,92 @@
 <template>
-  <div>
-    <div class="form-group">
-      <label for="aluno">Selecione o Aluno:</label>
-      <Select id="aluno" v-model="selectedAluno" :options="alunos" optionLabel="nome" placeholder="Selecione um aluno" class="w-full"></Select>
-    </div>
+  <div class="confirmation-content">
+    <p class="confirmation-text">Você tem certeza de que deseja comprar este benefício?</p>
 
-    <div class="form-group">
-      <label for="valor">Valor:</label>
-      <InputNumber v-model="quantidadeMoedasASeremEnviadas" :min="1" placeholder="Digite a quantidade de moedas"
-        class="w-full" prefix="A$: " currency="BRL" />
+    <div class="button-group">
+      <Button label="Confirmar" icon="pi pi-check" class="confirm-button" @click="confirmar" />
+      <Button label="Cancelar" icon="pi pi-times" class="cancel-button" @click="cancelar" />
     </div>
-
-    <div class="form-group">
-      <label for="motivo">Motivo:</label>
-      <Textarea v-model="motivo" rows="3" placeholder="Digite o motivo" class="w-full" />
-    </div>
-
-    <Button label="Enviar Moedas" icon="pi pi-send" class="w-full" @click="enviarMoedas" />
   </div>
 </template>
 
 <script setup>
-import { ref, onBeforeMount, onMounted } from 'vue';
-import Dropdown from "primevue/dropdown";
-import Select from "primevue/select";
-import InputNumber from "primevue/inputnumber";
-import Textarea from "primevue/textarea";
+import { defineEmits,defineProps } from 'vue';
 import Button from "primevue/button";
-import alunoService from '../services/alunoService.js';
-
-const selectedAluno = ref(null);
-const quantidadeMoedasASeremEnviadas = ref(0);
-const motivo = ref("");
-const alunos = ref([]);
+import alunoService from '@/services/alunoService';
 
 
-onBeforeMount(() => {
-  renderAlunosSelect();
+const props = defineProps({
+  beneficio: {
+    type: Object,
+    required: true
+  }
 });
 
-function renderAlunosSelect() {
-  return alunoService.getAlunos().then((response) => {
-    alunos.value = response.data;
-    console.log(alunos);
-  });
+const emit = defineEmits(['confirmarCompra', 'cancelarCompra']);
+
+function confirmar() {
+  
+  let request = {
+    vantagemId: props.beneficio.id,
+    alunoId: localStorage.getItem('userId')
+  }
+  alunoService.comprarBeneficio(request).then(e=> emit('confirmarCompra',e.data));
 }
 
-
-
-function enviarMoedas() {
-  if (selectedAluno.value && valor.value > 0 && motivo.value) {
-    console.log("Aluno:", selectedAluno.value);
-    console.log("Valor:", valor.value);
-    console.log("Motivo:", motivo.value);
-    alert(`Moedas enviadas para ${selectedAluno.value.nome}`);
-  } else {
-    alert("Por favor, preencha todos os campos.");
-  }
+function cancelar() {
+  emit('cancelarCompra');
 }
 </script>
 
 <style scoped>
-.form-group {
-  margin-bottom: 1rem;
+.confirmation-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
 }
 
-.w-full {
+.confirmation-text {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.75rem;
   width: 100%;
+  justify-content: center;
+}
+
+.confirm-button {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  flex: 1;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  flex: 1;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.cancel-button:hover {
+  background-color: #e53935;
+}
+
+.confirm-button:hover {
+  background-color: #45a049;
 }
 </style>
