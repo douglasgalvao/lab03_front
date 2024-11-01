@@ -151,18 +151,25 @@ onMounted(() => {
 .fotoPerfilPrimeiro {
   top: 0;
   left: 53%;
-  width: 5vw;
-  height: 5vw;
-  margin-left: -5vw;
+  width: 4vw;
+  height: 4vw;
+  margin-left: -3.8vw;
 }
 
 .fotoPerfilSegundo {
-  top: 12%;
+  top: 15%;
   left: 30%;
-  width: 4.5vw;
-  height: 4.5vw;
-  margin-left: 4vw;
+  width: 3.5vw;
+  height: 3.5vw;
+  margin-left: 3.3vw;
   /* margin-bottom: 4vw; */
+}
+.fotoPerfilTerceiro {
+  top: 22%;
+  left: 65%;
+  width: 3vw;
+  height: 3vw;
+  margin-left: -3vw;
 }
 
 .fotoPodium {
@@ -170,13 +177,7 @@ onMounted(() => {
   height: 100%;
 }
 
-.fotoPerfilTerceiro {
-  top: 20%;
-  left: 65%;
-  width: 4vw;
-  height: 4vw;
-  margin-left: -4vw;
-}
+
 .dataTableHowView {
   padding: 1rem;
 }

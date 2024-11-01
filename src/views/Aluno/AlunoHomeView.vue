@@ -13,7 +13,7 @@
           />
           <span class="priceText">{{ vantagem.preco }}</span>
         </div>
-        <Button label="Comprar" class="buttonComprarVantagem"></Button>
+      <Button label="Comprar" class="buttonComprarVantagem"></Button>
       </div>
     </Card>
   </div>
@@ -30,6 +30,10 @@ import boca_do_forno from "../../assets/boca_do_forno.png";
 import aracoin from "../../assets/aracoin.png";
 
 const vantagens = ref([]);
+
+function comprarVantagem(vantagem) {
+  console.log("Comprando vantagem", vantagem);
+}
 
 onMounted(() => {
   vantagens.value = [
