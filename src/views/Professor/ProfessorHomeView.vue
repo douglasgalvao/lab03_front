@@ -35,8 +35,8 @@
       </Column>
       <Column style="width: 33%" field="curso" header="Curso" />
       <Column style="width: 33%" field="acaoImg" header="Ações">
-        <template #body>
-          <button class="buttonEnviarAracoin" @click="openDialogEnviarMoedas">
+        <template #body="slotProps">
+          <button class="buttonEnviarAracoin" @click="openDialogEnviarMoedas(slotProps.aluno)">
             <img :src="aracoinPNG" style="width: 50px; height: auto" />
           </button>
         </template>
@@ -50,7 +50,7 @@
           <p>Enviar Moedas</p>
         </div>
       </template>
-      <ModalTransferirMoedas />
+      <ModalTransferirMoedas :aluno="alunoSelected" />
     </Dialog>
 
   </div>
@@ -73,13 +73,15 @@ import ModalTransferirMoedas from "@/components/ModalTransferirMoedas.vue";
 
 const searchQuery = ref("");
 const searchQueryByCurso = ref("");
+const alunoSelected = ref(null);
 const alunos = ref([]);
 const filteredAlunos = ref([]);
 
 const showDialog = ref(false);
 
-function openDialogEnviarMoedas() {
+function openDialogEnviarMoedas(aluno) {
   showDialog.value = true;
+  alunoSelected.value = aluno;
 }
 
 function renderAlunos() {

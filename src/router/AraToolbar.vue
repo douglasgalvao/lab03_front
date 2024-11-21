@@ -29,7 +29,7 @@
         <img src="@/assets/aracoin.png" alt="AraCoin" style="width: 40px; height: 32px; margin-right: 1rem" />
 
         <Avatar :image=imgPerfil
-          style="width: 32px; height: 32px; border-radius: 100%;" />
+          style="width: 32px; height: 32px; border-radius: 100%; border-radius: 100%;" />
 
         <div class="contentUser">
           <Button icon="pi pi-sign-out" class="p-button-rounded p-button-danger" @click="logout" />
@@ -64,7 +64,7 @@
         <span class="saldo">{{ saldo }}</span>
 
         <img src="@/assets/aracoin.png" alt="AraCoin" style="width: 40px; height: 32px;" />
-        <Avatar :image=imgPerfil style="width: 32px; height: 32px; margin-right:1rem; border-radius: 100%;" />
+        <Avatar :image=imgPerfil style="width: 32px; height: 32px; margin-right:1rem; border-radius: 100%;"  />
 
         <div class="contentUser">
           <Button icon="pi pi-sign-out" class="p-button-rounded p-button-danger" @click="logout" />
@@ -87,7 +87,7 @@
         <span class="saldo">{{ saldo }}</span>
 
         <Avatar :image=imgPerfil
-          style="width: 32px; height: 32px; margin-right:1rem; border-radius: 100%;" />
+          style="width: 32px; height: 32px; margin-right:1rem; border-radius: 100%; border-radius: 100%;" />
 
         <div class="contentUser">
           <Button icon="pi pi-sign-out" class="p-button-rounded p-button-danger" @click="logout" />

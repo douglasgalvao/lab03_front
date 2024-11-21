@@ -1,11 +1,6 @@
 <template>
   <div>
     <div class="form-group">
-      <label for="aluno">Selecione o Aluno:</label>
-      <Select id="aluno" v-model="selectedAluno" :options="alunos" optionLabel="nome" placeholder="Selecione um aluno" class="w-full"></Select>
-    </div>
-
-    <div class="form-group">
       <label for="valor">Valor:</label>
       <InputNumber v-model="quantidadeMoedasASeremEnviadas" :min="1" placeholder="Digite a quantidade de moedas"
         class="w-full" prefix="A$: " currency="BRL" />
@@ -22,35 +17,33 @@
 
 <script setup>
 import { ref, onBeforeMount, onMounted } from 'vue';
-import Dropdown from "primevue/dropdown";
-import Select from "primevue/select";
 import InputNumber from "primevue/inputnumber";
 import Textarea from "primevue/textarea";
 import Button from "primevue/button";
-import alunoService from '../services/alunoService.js';
 
-
-
-import douglas01 from "../assets/douglas01.jpg";
-import douglas02 from "../assets/douglas02.jpg";
-import douglas03 from "../assets/douglas03.jpg";
-
-const selectedAluno = ref(null);
 const quantidadeMoedasASeremEnviadas = ref(0);
 const motivo = ref("");
 const alunos = ref([]);
 
-
-onBeforeMount(() => {
-  renderAlunosSelect();
+const props = defineProps({
+  aluno: {
+    type: Object,
+    required: true
+  }
 });
 
-function renderAlunosSelect() {
-  return alunoService.getAlunos().then((response) => {
-    alunos.value = response.data;
-    console.log(alunos);
-  });
-}
+
+
+onMounted(() => {
+  console.log(props)
+});
+
+
+onBeforeMount(() => {
+
+});
+
+
 
 
 

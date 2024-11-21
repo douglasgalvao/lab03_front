@@ -12,7 +12,10 @@ const apiClient = axios.create({
 
 export default {
 
-    consultaExtrato(){
+    getHeader() {
+        return apiClient.get('/usuario/header?id=' + localStorage.getItem('userId'));
+    },
+    getExtrato(){
         return apiClient.get('/transacao/aluno/todas/' + localStorage.getItem('userId'));
     },
     getVantagens(){

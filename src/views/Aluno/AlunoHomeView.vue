@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Card v-for="vantagem in vantagens" :key="vantagem.nome" class="card">
+    <Card v-for="vantagem in vantagens" :key="vantagem.nome" :disabled="(vantagem.preco > saldo ? true : false)" class="card">
       <img :src="vantagem.imagem" alt="Imagem" class="card-image" />
       <div class="card-content">
         <div class="card-title">{{ vantagem.nome }}</div>
@@ -9,7 +9,7 @@
           <img :src="aracoin" alt="Aracoin" style="width: 36px; height: 32px; margin-right: 5px" />
           <span class="priceText">{{ vantagem.preco }}</span>
         </div>
-        <Button label="Comprar" class="buttonComprarVantagem" @click="comprarVantagem(vantagem)"></Button>
+        <Button label="Comprar" class="buttonComprarVantagem" :disabled="(vantagem.preco > saldo ? true : false)"  @click="comprarVantagem(vantagem)"></Button>
       </div>
     </Card>
 
@@ -44,11 +44,14 @@ import aracoin from "../../assets/aracoin.png";
 import Dialog from "primevue/dialog";
 import ModalComprarBeneficio from "@/components/ModalComprarBeneficio.vue";
 import alunoService from "../../services/alunoService.js";
-
 const vantagens = ref([]);
+
 const beneficioSelecionado = ref(null);
 const showDialog = ref(false);
 const toast = useToast();
+const saldo = ref(null);
+const visibilityButton = ref(false);
+
 
 function comprarVantagem(vantagem) {
   beneficioSelecionado.value = vantagem;
@@ -60,7 +63,9 @@ onMounted(() => {
   alunoService.getVantagens().then((response) => {
     vantagens.value = response.data;
   });
-
+  
+  alunoService.getHeader().then(e=> saldo.value = e.data.saldoMoedas)
+  
 
 });
 
@@ -71,7 +76,6 @@ function onCancelarCompra() {
 
 function onConfirmarCompra(message) {
   showDialog.value = false;
-
   toast.add({ severity: 'success', summary: 'Info', detail: message, life: 3000 });
 }
 
@@ -98,10 +102,17 @@ function onConfirmarCompra(message) {
   display: flex;
   flex-direction: column;
 }
-
-.card:hover {
+.card:not(.disabled):hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para o card desabilitado */
+.card.disabled {
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .card-image {
@@ -154,7 +165,15 @@ function onConfirmarCompra(message) {
 }
 
 .buttonComprarVantagem:hover {
-  background: #ebeb00;
+  background: #afafa7;
   opacity: 0.8;
 }
+
+
+.buttonComprarVantagem:disabled {
+  opacity: 0.5;
+}
+
+
+
 </style>

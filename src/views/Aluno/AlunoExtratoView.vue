@@ -79,7 +79,7 @@ const extratoAluno = ref([]);
 
 onMounted(() => {
 
-  alunoService.consultaExtrato().then((response) => {
+  alunoService.getExtrato().then((response) => {
     extratoAluno.value = response.data;
   });
 
