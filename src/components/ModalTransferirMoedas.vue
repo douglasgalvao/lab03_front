@@ -20,6 +20,7 @@ import { ref, onBeforeMount, onMounted } from 'vue';
 import InputNumber from "primevue/inputnumber";
 import Textarea from "primevue/textarea";
 import Button from "primevue/button";
+import professorService from '@/services/professorService';
 
 const quantidadeMoedasASeremEnviadas = ref(0);
 const motivo = ref("");
@@ -32,6 +33,7 @@ const props = defineProps({
   }
 });
 
+const emit = defineEmits(['close']);
 
 
 onMounted(() => {
@@ -48,11 +50,21 @@ onBeforeMount(() => {
 
 
 function enviarMoedas() {
-  if (selectedAluno.value && valor.value > 0 && motivo.value) {
-    console.log("Aluno:", selectedAluno.value);
-    console.log("Valor:", valor.value);
-    console.log("Motivo:", motivo.value);
-    alert(`Moedas enviadas para ${selectedAluno.value.nome}`);
+
+  let request = {
+    idAluno: localStorage.getItem("userId"),
+    destinatarioId: props.aluno.id,
+    valor: quantidadeMoedasASeremEnviadas.value,
+    motivo: motivo.value
+  }
+
+
+  if (props.aluno.id && quantidadeMoedasASeremEnviadas.value > 0 && motivo.value) {
+    professorService.enviarMoedas(request).then((response) => {
+      console.log(response.data);
+      emit('close');
+      emit('toastEnvioMoedas');
+    });
   } else {
     alert("Por favor, preencha todos os campos.");
   }

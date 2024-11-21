@@ -1,33 +1,42 @@
-
-import axios from 'axios';
-import envoriments from '../enviroment/enviroments.js';
-import environments from '../enviroment/enviroments.js';
+import axios from "axios";
+import envoriments from "../enviroment/enviroments.js";
+import environments from "../enviroment/enviroments.js";
 
 const apiClient = axios.create({
-    baseURL: environments.prod.API_URL,
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-    }
+  baseURL: environments.prod.API_URL,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
 });
 
 export default {
+  consultaHeader() {
+    return apiClient.get(
+      "/usuario/header?id=" + localStorage.getItem("userId")
+    );
+  },
 
-    consultaHeader() {
-        return apiClient.get('/usuario/header?id=' + localStorage.getItem('userId'));
-    },
+  getAlunos() {
+    return apiClient.get("/aluno/todos");
+  },
 
-    getAlunos() {
-        return apiClient.get('/aluno/todos');
-    },
+  getRankingAlunos() {
+    return apiClient.get("/ranking/todos");
+  },
 
-    getRankingAlunos() {
-        return apiClient.get('/ranking/todos');
-    },
+  getExtrato() {
+    return apiClient.get(
+      "/transacao/professor/enviadas/" + localStorage.getItem("userId")
+    );
+  },
 
-    getExtrato(){
-        return apiClient.get('/transacao/professor/enviadas/' + localStorage.getItem('userId'));
-    }
-
-
-}
+  enviarMoedas(request) {
+    return apiClient.post("/transacao/professor/transferencia", {
+      remetenteId: localStorage.getItem("userId"),
+      destinatarioId: request.destinatarioId,
+      valor: request.valor,
+      motivo: request.motivo,
+    });
+  },
+};

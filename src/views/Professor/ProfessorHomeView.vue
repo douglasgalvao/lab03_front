@@ -36,12 +36,14 @@
       <Column style="width: 33%" field="curso" header="Curso" />
       <Column style="width: 33%" field="acaoImg" header="Ações">
         <template #body="slotProps">
-          <button class="buttonEnviarAracoin" @click="openDialogEnviarMoedas(slotProps.aluno)">
+          <button class="buttonEnviarAracoin" @click="openDialogEnviarMoedas(slotProps.data)">
             <img :src="aracoinPNG" style="width: 50px; height: auto" />
           </button>
         </template>
       </Column>
     </DataTable>
+
+    <Toast/>
 
     <Dialog v-model:visible="showDialog" modal>
 
@@ -50,7 +52,7 @@
           <p>Enviar Moedas</p>
         </div>
       </template>
-      <ModalTransferirMoedas :aluno="alunoSelected" />
+      <ModalTransferirMoedas :aluno="alunoSelected" @close="showDialog = false" @toastEnvioMoedas="notificarEnvio" />
     </Dialog>
 
   </div>
@@ -60,6 +62,7 @@
 import { onMounted,onBeforeMount } from "vue";
 import { ref } from "vue";
 
+import { useToast } from 'primevue/usetoast';
 import InputText from "primevue/inputtext";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -82,12 +85,17 @@ const showDialog = ref(false);
 function openDialogEnviarMoedas(aluno) {
   showDialog.value = true;
   alunoSelected.value = aluno;
+  console.log(alunoSelected.value)
 }
 
 function renderAlunos() {
   professorService.getAlunos().then((response) => {
     alunos.value = response.data;
   });
+}
+
+function notificarEnvio() {
+  toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Moedas enviadas com sucesso' });
 }
 
 
