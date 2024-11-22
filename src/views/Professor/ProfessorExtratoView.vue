@@ -57,7 +57,7 @@
           <div style="display: flex; align-items: center; gap: 1rem">
             <img
               class="fotoPerfil"
-              :src="slotProps.data.fotoRemetente"
+              :src="slotProps.data.fotoDestinatario"
               alt="Foto do Perfil"
             />
             {{ slotProps.data.destinatario }}
